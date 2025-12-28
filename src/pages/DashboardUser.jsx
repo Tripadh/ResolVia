@@ -248,23 +248,30 @@ function DashboardUser() {
     const pushResult = await push(complaintRef, newComplaint);
     const complaintId = pushResult.key;
 
+
     // Auto-analyze: call backend
     try {
+      console.log("🔥 analyzeComplaint CALLED", complaintId);
       const res = await fetch("http://localhost:5000/analyze-complaint", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ complaintText: newComplaint.title + ". " + newComplaint.description })
       });
+      console.log("🌐 API status:", res.status);
       const data = await res.json();
+      console.log("🤖 AI DATA:", data);
       if (data.success) {
         await update(ref(rtdb, `complaints/${complaintId}`), {
           aiAnalysis: data.analysis,
           status: "analyzed",
           analyzedAt: Date.now(),
         });
+        console.log("✅ Firebase updated");
+      } else {
+        console.error("❌ Backend error:", data.error);
       }
     } catch (err) {
-      // Optionally handle error (do nothing, or log)
+      console.error("❌ analyzeComplaint failed:", err);
     }
 
     setComplaintTitle("");

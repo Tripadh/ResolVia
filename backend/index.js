@@ -5,8 +5,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-  function analyzeComplaint(text) {
+/* ===============================
+   STATIC COMPLAINT ANALYZER
+=============================== */
+function analyzeComplaint(text) {
   const lower = text.toLowerCase();
 
   /* ===============================
@@ -22,8 +24,7 @@ app.use(express.json());
     lower.includes("food")
   ) {
     category = "Hostel";
-  } 
-  else if (
+  } else if (
     lower.includes("fee") ||
     lower.includes("fees") ||
     lower.includes("payment") ||
@@ -31,8 +32,7 @@ app.use(express.json());
     lower.includes("scholarship")
   ) {
     category = "Finance";
-  } 
-  else if (
+  } else if (
     lower.includes("exam") ||
     lower.includes("marks") ||
     lower.includes("grade") ||
@@ -41,8 +41,7 @@ app.use(express.json());
     lower.includes("lecture")
   ) {
     category = "Academics";
-  } 
-  else if (
+  } else if (
     lower.includes("admin") ||
     lower.includes("office") ||
     lower.includes("document") ||
@@ -50,8 +49,7 @@ app.use(express.json());
     lower.includes("permission")
   ) {
     category = "Administration";
-  } 
-  else if (
+  } else if (
     lower.includes("wifi") ||
     lower.includes("internet") ||
     lower.includes("network") ||
@@ -74,8 +72,7 @@ app.use(express.json());
     lower.includes("emergency")
   ) {
     priority = "Critical";
-  } 
-  else if (
+  } else if (
     lower.includes("delay") ||
     lower.includes("problem") ||
     lower.includes("issue") ||
@@ -83,8 +80,7 @@ app.use(express.json());
     lower.includes("failed")
   ) {
     priority = "High";
-  } 
-  else if (
+  } else if (
     lower.includes("request") ||
     lower.includes("please") ||
     lower.includes("kindly")
@@ -103,23 +99,20 @@ app.use(express.json());
     lower.includes("outraged")
   ) {
     emotion = "Angry";
-  } 
-  else if (
+  } else if (
     lower.includes("frustrated") ||
     lower.includes("irritated") ||
     lower.includes("annoyed") ||
     lower.includes("disappointed")
   ) {
     emotion = "Frustrated";
-  } 
-  else if (
+  } else if (
     lower.includes("sad") ||
     lower.includes("upset") ||
     lower.includes("worried")
   ) {
     emotion = "Disappointed";
-  } 
-  else if (
+  } else if (
     lower.includes("thank") ||
     lower.includes("happy") ||
     lower.includes("satisfied") ||
@@ -132,31 +125,35 @@ app.use(express.json());
      SUMMARY GENERATION
   =============================== */
   const summary =
-    text.length > 100
-      ? text.slice(0, 100) + "..."
-      : text;
+    text.length > 100 ? text.slice(0, 100) + "..." : text;
 
-  return {
-    summary,
-    category,
-    priority,
-    emotion,
-  };
+  return { summary, category, priority, emotion };
 }
 
-
+/* ===============================
+   API ENDPOINT
+=============================== */
 app.post("/analyze-complaint", (req, res) => {
+  console.log("[API] /analyze-complaint called. Body:", req.body);
   const { complaintText } = req.body;
 
   if (!complaintText) {
-    return res.status(400).json({ success: false, error: "Complaint text required" });
+    console.error("[API] No complaintText provided!");
+    return res
+      .status(400)
+      .json({ success: false, error: "Complaint text required" });
   }
 
   const analysis = analyzeComplaint(complaintText);
-
+  console.log("[API] Analysis result:", analysis);
   res.json({ success: true, analysis });
 });
 
-app.listen(5000, () => {
-  console.log("🚀 Static AI API running on http://localhost:5000");
+/* ===============================
+   START SERVER
+=============================== */
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Static AI API running on port ${PORT}`);
 });
+
