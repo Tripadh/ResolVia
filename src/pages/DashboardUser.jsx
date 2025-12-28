@@ -230,7 +230,8 @@ function DashboardUser() {
     // Generate auto-reply before clearing form
     const reply = generateAutoReply(complaintTitle, complaintDescription);
     
-    await push(ref(rtdb, "complaints"), {
+    const complaintRef = ref(rtdb, "complaints");
+    const newComplaint = {
       title: complaintTitle.trim(),
       description: complaintDescription.trim(),
       status: "open",
@@ -242,7 +243,29 @@ function DashboardUser() {
       statusHistory: {
         submitted: new Date().toISOString()
       }
-    });
+    };
+    // Push complaint and get the new key
+    const pushResult = await push(complaintRef, newComplaint);
+    const complaintId = pushResult.key;
+
+    // Auto-analyze: call backend
+    try {
+      const res = await fetch("http://localhost:5000/analyze-complaint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ complaintText: newComplaint.title + ". " + newComplaint.description })
+      });
+      const data = await res.json();
+      if (data.success) {
+        await update(ref(rtdb, `complaints/${complaintId}`), {
+          aiAnalysis: data.analysis,
+          status: "analyzed",
+          analyzedAt: Date.now(),
+        });
+      }
+    } catch (err) {
+      // Optionally handle error (do nothing, or log)
+    }
 
     setComplaintTitle("");
     setComplaintDescription("");

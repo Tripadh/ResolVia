@@ -1,3 +1,57 @@
+.login-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  position: relative;
+}
+
+.judge-note {
+  width: 270px;
+  background: rgba(255,255,255,0.97);
+  color: #1e293b;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 18px 22px 16px 22px;
+  font-size: 15px;
+  line-height: 1.6;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  font-family: inherit;
+  margin-top: 8px;
+  animation: slideInNote 0.5s cubic-bezier(.4,1.4,.6,1) forwards;
+}
+
+@keyframes slideInNote {
+  from { opacity: 0; transform: translateX(40px) scale(0.98); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@media (max-width: 900px) {
+  .judge-note {
+    display: none;
+  }
+}
+/* Home button at top right */
+.home-btn {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  z-index: 10;
+  background: rgba(255,255,255,0.13);
+  color: #6366f1;
+  font-weight: 600;
+  padding: 8px 22px;
+  border-radius: 8px;
+  border: 1px solid #6366f1;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: 0 2px 8px #0001;
+}
+.home-btn:hover {
+  background: #6366f1;
+  color: #fff;
+}
 .password-wrapper {
   position: relative;
 }
@@ -72,8 +126,9 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 380px;
-  padding: 36px;
+  min-width: 380px;
+  max-width: 440px;
+  padding: 48px 40px 40px 40px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(14px);

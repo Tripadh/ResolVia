@@ -105,45 +105,54 @@ function Register() {
 
   return (
     <div className="register-page">
+      <Link to="/" className="home-btn">Home</Link>
       <div className="register-glow" />
-
-      <form className="register-card" onSubmit={handleRegister}>
-        <h2>Create Account</h2>
-        <p className="subtitle">Join the platform</p>
-
-        <input
-          type="email"
-          placeholder="Email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="user">User</option>
-          <option value="manager">Manager</option>
-          <option value="admin">Admin</option>
-        </select>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Registering..." : "Register"}
-        </button>
-
-        <p className="footer-text">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-      </form>
+      <div className="register-layout">
+        {/* REGISTER CARD */}
+        <form className="register-card" onSubmit={handleRegister}>
+          <h2>Create Account</h2>
+          <p className="subtitle">Join the platform</p>
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="user">User</option>
+            <option value="manager">Manager</option>
+            <option value="admin">Admin</option>
+          </select>
+          <button type="submit" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
+          </button>
+          <p className="footer-text">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </form>
+        {/* JUDGE NOTE - right side box */}
+        <div className="judge-note">
+          <b>Note for Judges:</b>
+          <ul style={{marginTop: 8, marginBottom: 0}}>
+            <li><b>First</b>, sign up as <b>Admin</b> and create an organization domain.</li>
+            <li><b>Then</b>, register as <b>User</b> or <b>Manager</b> using a matching email.</li>
+            <li>Managers can be assigned by Admin.</li>
+            <li>Role selection affects dashboard and permissions.</li>
+            <li>Contact us for demo accounts.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

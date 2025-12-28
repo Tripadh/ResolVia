@@ -33,6 +33,16 @@ ChartJS.register(
 );
 
 function AdminDashboard() {
+      // Delete organization handler
+      const deleteOrganization = async (orgId) => {
+        if (!window.confirm("Are you sure you want to delete this organization? This action cannot be undone.")) return;
+        try {
+          await import("firebase/database").then(({ remove }) => remove(ref(rtdb, `organizations/${orgId}`)));
+          await logAdminAction(`Deleted organization ${orgId}`);
+        } catch (err) {
+          alert("Failed to delete organization: " + (err.message || err));
+        }
+      };
     // Error banner UI
     const renderDbErrorBanner = () => dbError ? (
       <div style={{background:'#fee',color:'#b00',padding:'12px',marginBottom:'16px',border:'1px solid #b00',borderRadius:'6px',display:'flex',alignItems:'center',justifyContent:'space-between',zIndex:1000}}>
@@ -741,10 +751,12 @@ function AdminDashboard() {
                   <tr key={manager.id}>
                     <td className="manager-info">
                       <div className="manager-avatar">
-                        {manager.name.charAt(0).toUpperCase()}
+                        {(manager.email?.charAt(0) || "U").toUpperCase()}
                       </div>
                       <div className="manager-details">
-                        <span className="manager-name">{manager.name}</span>
+                        <span className="manager-name">
+                          {manager.email?.split("@")[0] || "Unknown"}
+                        </span>
                         <span className="manager-email">{manager.email}</span>
                       </div>
                     </td>
@@ -858,6 +870,7 @@ function AdminDashboard() {
                   <span>Email Domain</span>
                   <span>Created</span>
                   <span>Complaints</span>
+                  <span>Action</span>
                 </div>
                 {orgs.length === 0 ? (
                   <div className="empty-state">No organizations yet</div>
@@ -871,6 +884,11 @@ function AdminDashboard() {
                       </span>
                       <span className="org-count">
                         {complaints.filter((c) => c.orgId === o.id).length}
+                      </span>
+                      <span>
+                        <button className="btn-danger" style={{padding:'4px 10px',marginLeft:'8px'}} onClick={() => deleteOrganization(o.id)}>
+                          🗑️ Delete
+                        </button>
                       </span>
                     </div>
                   ))
