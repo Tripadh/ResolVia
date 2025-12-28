@@ -1,6 +1,8 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import logoImg from "../assets/WhatsApp_Image_2025-12-28_at_5.17.10_PM-removebg-preview.png";
 
 const AnimatedStat = ({ number, label, suffix }) => {
   const [count, setCount] = useState(0);
@@ -127,7 +129,7 @@ export default function Home() {
       {/* NAVBAR */}
       <nav style={styles.nav}>
         <div style={styles.logoContainer}>
-          <img src="/logo.svg" alt="ResolVia Logo" style={styles.logoImage} />
+          <img src={logoImg} alt="ResolVia Logo" style={styles.logoImage} />
           <div style={styles.logoTextContainer}>
             <h2 style={styles.logoText}>ResolVia</h2>
             <p style={styles.logoSubtext}>COMPLAINT INTELLIGENCE</p>
