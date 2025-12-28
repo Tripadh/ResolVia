@@ -1,0 +1,86 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   ROOT + BODY FULL SCREEN
+========================= */
+html {
+  width: 100%;
+  min-height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #0f172a !important;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #0f172a !important;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  display: block;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #0f172a;
+}
+
+/* =========================
+   TYPOGRAPHY BASE
+========================= */
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.92);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================
+   LINKS
+========================= */
+a {
+  font-weight: 500;
+  color: #8b5cf6;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #a78bfa;
+}
+
+/* =========================
+   BUTTON BASE (OVERRIDDEN IN COMPONENTS)
+========================= */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* =========================
+   FIREBASE EMULATOR WARNING
+========================= */
+iframe,
+.firebase-emulator-warning {
+  max-width: 100%;
+  overflow-x: hidden;
+}
